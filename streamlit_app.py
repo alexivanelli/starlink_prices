@@ -31,7 +31,7 @@ df.columns = [
     "Roam Unlimited (USD)"
 ]
 
-df["Roam Unlimited (USD)"] = df["Roam Unlimited (USD)"].round(2).
+df["Roam Unlimited (USD)"] = df["Roam Unlimited (USD)"].round(2)
 
 # Sort by USD column
 df = df.sort_values(by="Roam Unlimited (USD)", ascending=True)
