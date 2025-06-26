@@ -61,7 +61,7 @@ class StarlinkDataHandler:
         df = pd.merge(df, df_currencies, on='currency', how='left')
 
         # get country names
-        df_region = pd.read_json('region.json')
+        df_region = pd.read_json('all.json')
         df_region = df_region[['name', 'alpha-2', 'region']]
         df_region.columns = ['country', 'region_code', 'region']
         df = pd.merge(df, df_region, on='region_code', how='left')
