@@ -16,9 +16,6 @@ with open("prices.json", "r") as f:
 update_date = data.get("date", "Unknown")
 df = pd.DataFrame(data["data"])
 
-# Convert columns from str-indexed to regular format
-df = df.T.reset_index(drop=True)
-
 # Convert 'roam_unlimited_usd' to numeric for sorting
 df["roam_unlimited_usd"] = df["roam_unlimited_usd"].astype(float)
 df["roam_unlimited"] = df["roam_unlimited"].astype(float)
