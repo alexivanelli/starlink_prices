@@ -3,10 +3,10 @@ import pandas as pd
 import json
 
 # Wide layout
-st.set_page_config(layout="wide")
+# st.set_page_config(layout="wide")
 
 # Title
-st.title("Roaming Prices Overview")
+st.title("Starlink Roaming Prices")
 
 # Read the JSON file
 with open("prices.json", "r") as f:
@@ -32,10 +32,10 @@ df.columns = [
 df["Roam Unlimited (USD)"] = df["Roam Unlimited (USD)"].round(2)
 
 # Sort by USD column
-df = df.sort_values(by="Roam Unlimited (USD)", ascending=True)
+df = df.sort_values(by="Roam Unlimited (USD)", ascending=True).reset_index(drop=True)
 
 # Display date
 st.markdown(f"**Last Updated:** {update_date}")
 
 # Show the table
-st.dataframe(df, use_container_width=True)
+st.table(df, use_container_width=True)
