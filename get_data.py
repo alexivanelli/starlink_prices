@@ -68,6 +68,7 @@ class StarlinkDataHandler:
         df = pd.merge(df, df_region, on='region_code', how='left')
         df['roam_unlimited_usd'] = df['roam_unlimited'] / df['rate']
         df = df[['country', 'region', 'currency', 'roam_unlimited', 'roam_unlimited_usd']]
+        df = df.dropna()
 
         # Create the output structure
         output = {
