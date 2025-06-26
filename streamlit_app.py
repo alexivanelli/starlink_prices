@@ -20,7 +20,8 @@ df = pd.DataFrame(data["data"])
 df = df.T.reset_index(drop=True)
 
 # Convert 'roam_unlimited_usd' to numeric for sorting
-df["roam_unlimited_usd"] = pd.to_numeric(df["roam_unlimited_usd"], errors="coerce")
+df["roam_unlimited_usd"] = df["roam_unlimited_usd"].astype(float)
+df["roam_unlimited"] = df["roam_unlimited"].astype(float)
 
 # Rename columns to be more readable
 df.columns = [
