@@ -9,7 +9,7 @@ st.set_page_config(layout="wide")
 st.title("Roaming Prices Overview")
 
 # Read the JSON file
-with open("1.json", "r") as f:
+with open("prices.json", "r") as f:
     data = json.load(f)
 
 # Extract date and DataFrame
