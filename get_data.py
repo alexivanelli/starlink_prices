@@ -71,7 +71,7 @@ class StarlinkDataHandler:
 
         # Create the output structure
         output = {
-            "date": datetime.now().strptime('%Y%m%d'),
+            "date": datetime.datetime.now().strptime('%Y%m%d'),
             "data": json.loads(df.to_json())
         }
         
