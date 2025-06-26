@@ -78,7 +78,6 @@ class StarlinkDataHandler:
         # Save to JSON file
         with open("prices.json", "w") as f:
             json.dump(output, f, indent=2)
-        df.to_json('prices.json', orient='records')
 
 
 if __name__ == '__main__':
