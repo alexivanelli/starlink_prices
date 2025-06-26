@@ -38,4 +38,4 @@ df = df.sort_values(by="Roam Unlimited (USD)", ascending=True).reset_index(drop=
 st.markdown(f"**Last Updated:** {update_date}")
 
 # Show the table
-st.table(df)
+st.dataframe(df, use_container_width=True)
