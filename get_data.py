@@ -1,6 +1,6 @@
 import requests
 import pandas as pd
-
+import json
 
 class StarlinkDataHandler:
 
@@ -67,6 +67,16 @@ class StarlinkDataHandler:
         df = pd.merge(df, df_region, on='region_code', how='left')
         df['roam_unlimited_usd'] = df['roam_unlimited'] / df['rate']
         df = df[['country', 'region', 'currency', 'roam_unlimited', 'roam_unlimited_usd']]
+
+        # Create the output structure
+        output = {
+            "date": datetime.now().strptime('%Y%m%d'),
+            "data": json.loads(df.to_json())
+        }
+        
+        # Save to JSON file
+        with open("prices.json", "w") as f:
+            json.dump(output, f, indent=2)
         df.to_json('prices.json', orient='records')
 
 
