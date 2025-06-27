@@ -16,17 +16,17 @@ with open("prices.json", "r") as f:
 update_date = data.get("date", "Unknown")
 df = pd.DataFrame(data["data"])
 
-# Convert 'roam_unlimited_usd' to numeric for sorting
-df["roam_unlimited_usd"] = df["roam_unlimited_usd"].astype(float)
-df["roam_unlimited"] = df["roam_unlimited"].astype(float)
+df = df[df['plan'] == 'Roam Unlimited'].reset_index(drop=True)
+
+del df['plan']
 
 # Rename columns to be more readable
 df.columns = [
     "Country",
     "Region",
     "Currency",
-    "Roam Unlimited",
-    "Roam Unlimited (USD)"
+    "Price",
+    "Price (USD)"
 ]
 
 df["Roam Unlimited (USD)"] = df["Roam Unlimited (USD)"].round(2)
