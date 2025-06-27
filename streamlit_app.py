@@ -16,7 +16,7 @@ with open("prices.json", "r") as f:
 update_date = data.get("date", "Unknown")
 df = pd.DataFrame(data["data"])
 
-df = df[df['plan'] == 'Roam Unlimited'].reset_index(drop=True)
+df = df[df['plan'] == 'Roam - Unlimited'].reset_index(drop=True)
 
 del df['plan']
 
