@@ -70,10 +70,15 @@ st.markdown(f"### Showing plans for: {group}")
 if group == "🚀 Priority":
     plan_categories = df.loc[df['plan_group'] == group, 'plan_category'].unique()
     selected_plan_category = st.radio("Select a specific plan category", sorted(plan_categories), key="priority_radio")
-    df_to_show = df[df['plan_category'] == selected_plan_category][['region', 'country', 'plan', 'price_usd']]
-    df_to_show = df_to_show.sort_values(by='price_usd', ascending=True)
-    df_to_show = df_to_show.set_index('region')
-    price_columns = ['price_usd']
+    filtered_df = df[df['plan_category'] == selected_plan_category]
+    df_to_show = pd.pivot_table(
+        filtered_df,
+        values='price_usd',
+        index=['country', 'region'],
+        columns=['plan'],
+        aggfunc='first'
+    ).reset_index()
+
 
 else:
     filtered_df = df[df['plan_group'] == group]
@@ -85,16 +90,16 @@ else:
         aggfunc='first'
     ).reset_index()
 
-    price_columns = [c for c in df_to_show.columns if c not in ['country', 'region']]
-    price_columns_sorted = sorted(price_columns, key=lambda col: df_to_show[col].notna().sum(), reverse=True)
-    df_to_show = df_to_show[['region', 'country'] + price_columns_sorted]
+price_columns = [c for c in df_to_show.columns if c not in ['country', 'region']]
+price_columns_sorted = sorted(price_columns, key=lambda col: df_to_show[col].notna().sum(), reverse=True)
+df_to_show = df_to_show[['region', 'country'] + price_columns_sorted]
 
-    if group == "🏠 Residential":
-        df_to_show = df_to_show.sort_values(by='Residential', ascending=True)
-    if group == "🌍 Roam":
-        df_to_show = df_to_show.sort_values(by='Roam - Unlimited', ascending=True)
+if group == "🏠 Residential":
+    df_to_show = df_to_show.sort_values(by='Residential', ascending=True)
+if group == "🌍 Roam":
+    df_to_show = df_to_show.sort_values(by='Roam - Unlimited', ascending=True)
 
-    df_to_show = df_to_show.set_index('region')
+df_to_show = df_to_show.set_index('region')
 
 # Display table
 st.dataframe(df_to_show,
