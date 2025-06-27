@@ -3,6 +3,7 @@ import pandas as pd
 import json
 import datetime
 
+
 class StarlinkDataHandler:
 
     @staticmethod
@@ -14,25 +15,21 @@ class StarlinkDataHandler:
 
     @staticmethod
     def find_roam_data(data):
-        roam_data = None
-
-        # find roam data
-        for d in data:
-            if d['invitationType'] == '8':
-                roam_data = d
-                break
 
         result = []
-        for d in roam_data['countries']:
-            d_result = {
-                'region_code': d['regionCode'],
-                'currency': d['currencyCode'],
-            }
 
-            for s in d['subscriptions']:
-                d_result[s['description']] = s['price']
+        # find roam data
+        for d_data in data:
 
-            result.append(d_result)
+            for d in d_data['countries']:
+                for s in d['subscriptions']:
+                    d_result = {
+                        'region_code': d['regionCode'],
+                        'currency': d['currencyCode'],
+                        'plan': s['description'],
+                        'price': s['price']
+                    }
+                    result.append(d_result)
 
         return result
 
@@ -50,10 +47,6 @@ class StarlinkDataHandler:
         data = StarlinkDataHandler.find_roam_data(data)
         df = pd.DataFrame(data)
 
-        df = df.rename(columns={'Roam - Unlimited': 'roam_unlimited'})
-        df = df[['region_code', 'currency', 'roam_unlimited']]
-        df = df.dropna(subset=['roam_unlimited'])
-
         # get currency data
         data_currencies = StarlinkDataHandler.get_currency_rates()
         df_currencies = pd.DataFrame([data_currencies.keys(), data_currencies.values()]).T
@@ -66,16 +59,17 @@ class StarlinkDataHandler:
         df_region = df_region[['name', 'alpha-2', 'region']]
         df_region.columns = ['country', 'region_code', 'region']
         df = pd.merge(df, df_region, on='region_code', how='left')
-        df['roam_unlimited_usd'] = df['roam_unlimited'] / df['rate']
-        df = df[['country', 'region', 'currency', 'roam_unlimited', 'roam_unlimited_usd']]
-        df = df.dropna()
+
+        df['price_usd'] = df['price'] / df['rate']
+
+        df = df[['plan', 'country', 'region', 'currency', 'price', 'price_usd']]
 
         # Create the output structure
         output = {
             "date": datetime.datetime.now().strftime('%Y%m%d'),
-            "data": json.loads(df.to_json())
+            "data": json.loads(df.to_json(orient='records'))
         }
-        
+
         # Save to JSON file
         with open("prices.json", "w") as f:
             json.dump(output, f, indent=2)
