@@ -29,10 +29,10 @@ df.columns = [
     "Price (USD)"
 ]
 
-df["Roam Unlimited (USD)"] = df["Roam Unlimited (USD)"].round(2)
+df["Price (USD)"] = df["Price (USD)"].round(2)
 
 # Sort by USD column
-df = df.sort_values(by="Roam Unlimited (USD)", ascending=True).reset_index(drop=True)
+df = df.sort_values(by="Price (USD)", ascending=True).reset_index(drop=True)
 
 # Display date
 st.markdown(f"**Last Updated:** {update_date}")
