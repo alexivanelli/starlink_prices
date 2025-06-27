@@ -64,6 +64,8 @@ class StarlinkDataHandler:
 
         df = df[['plan', 'country', 'region', 'currency', 'price', 'price_usd']]
 
+        df['plan'] = df['plan'].str.replace('<br>', '').str.strip()
+
         # Create the output structure
         output = {
             "date": datetime.datetime.now().strftime('%Y%m%d'),
