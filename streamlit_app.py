@@ -5,6 +5,7 @@ import json
 # Wide layout
 st.set_page_config(layout="wide")
 
+
 @st.cache_data
 def load_data():
     with open("prices.json", "r") as f:
@@ -29,8 +30,8 @@ Compare **Starlink subscription prices** across different countries.
 """)
 st.markdown(f"🗓️ Last updated: **{update_date}**")
 
-# Load data
 
+# Load data
 
 
 # Plan grouping logic
@@ -64,7 +65,6 @@ for i, group in enumerate(visual_groups):
 
 group = st.session_state.selected_group
 st.markdown(f"### Showing plans for: {group}")
-
 
 # Display logic
 if group == "🚀 Priority":
@@ -101,8 +101,9 @@ if group == "🌍 Roam":
 
 df_to_show = df_to_show.set_index(['region', 'country'])
 
-# Display table
-st.dataframe(df_to_show,
-             column_config={
-                 p: st.column_config.NumberColumn(p, format='$%.2f') for p in price_columns
-             }, height=3000)
+with st.columns([2, 10, 2])[1]:
+    # Display table
+    st.dataframe(df_to_show,
+                 column_config={
+                     p: st.column_config.NumberColumn(p, format='$%.2f') for p in price_columns
+                 }, use_container_width=True, height=2000)
