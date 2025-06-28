@@ -99,7 +99,7 @@ if group == "🏠 Residential":
 if group == "🌍 Roam":
     df_to_show = df_to_show.sort_values(by='Roam - Unlimited', ascending=True)
 
-df_to_show = df_to_show.set_index('region')
+df_to_show = df_to_show.set_index(['region', 'country'])
 
 # Display table
 st.dataframe(df_to_show,
