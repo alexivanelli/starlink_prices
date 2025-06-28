@@ -105,5 +105,4 @@ df_to_show = df_to_show.set_index(['region', 'country'])
 st.dataframe(df_to_show,
              column_config={
                  p: st.column_config.NumberColumn(p, format='$%.2f') for p in price_columns
-             },
-             use_container_width=True, height=3000)
+             }, height=3000)
